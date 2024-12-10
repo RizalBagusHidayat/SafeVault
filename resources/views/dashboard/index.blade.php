@@ -1,4 +1,7 @@
 @extends('layouts.dashboard')
+@push('scripts')
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+@endpush
 @section('content')
     <div class="container full-container py-5 flex flex-col gap-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">

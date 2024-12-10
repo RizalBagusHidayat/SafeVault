@@ -18,11 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('auth/login',[AuthController::class, 'indexLogin'])->name('login');
-Route::get('auth/register',[AuthController::class, 'indexRegister'])->name('register');
+Route::get('auth/login', [AuthController::class, 'indexLogin'])->name('login');
+Route::get('auth/register', [AuthController::class, 'indexRegister'])->name('register');
 
 Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 Route::get('auth/facebook', [AuthController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [AuthController::class, 'handleFacebookCallback']);
 
 
 
@@ -35,12 +37,12 @@ Route::get('/account-manager', function () {
 Route::get('/password-generator', function () {
     return view('dashboard.passwordGenerator');
 })->name('password-generator');
-Route::get('/activity-log', function () {
-    return view('dashboard.activityLog');
-})->name('activity-log');    
+Route::get('/activity', function () {
+    return view('dashboard.activity');
+})->name('activity');
 Route::get('/security', function () {
     return view('dashboard.security');
-})->name('security');    
+})->name('security');
 Route::get('/account-manager/{provider}', function () {
     return view('dashboard.detail-accountManager');
 })->name('account-manager.provider');

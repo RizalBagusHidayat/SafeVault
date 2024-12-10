@@ -22,10 +22,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('auth/register', [AuthController::class,'register'])->name('auth.register');
 Route::post('auth/login', [AuthController::class, 'login'])->name('auth.login');
 
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-Route::get('auth/facebook/callback', [AuthController::class, 'handleFacebookCallback']);
 
 
 Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('activity', function () {
+    $data = [
+        [
+            'timestamp' => now()->format('Y-m-d H:i:s'), // Current timestamp
+            'user' => 'John Doe',                       // Example user
+            'action' => 'Logged in'                     // Example action
+        ]
+    ];
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Activity data retrieved successfully',
+        'data' => $data
+    ], 200);
+})->name('api.activity');
 
 

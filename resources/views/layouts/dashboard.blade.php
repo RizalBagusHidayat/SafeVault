@@ -9,14 +9,27 @@
 
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet" />
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" /> --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <!-- Core Css -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
-    <title>Modernize TailwindCSS HTML Admin Template</title>
+    @stack('styles')
+
+    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/iconify-icon/dist/iconify-icon.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/@preline/dropdown/index.js') }}"></script>
+    <script src="{{ asset('assets/libs/@preline/overlay/index.js') }}"></script>
+    <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
+
+
+    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    @stack('scripts')
+
+    <title>Dashboard</title>
 </head>
 
 <body class=" bg-gray-100">
@@ -25,10 +38,8 @@
         <div id="main-wrapper" class=" flex">
             @include('layouts.sidebar')
             <div class=" w-full page-wrapper overflow-hidden">
-
                 <!--  Header Start -->
                 <header class="container full-container w-full text-sm py-5 xl:px-9 px-5">
-
                     <!-- ========== HEADER ========== -->
                     <nav class=" w-full  flex items-center justify-between" aria-label="Global">
                         <ul class="icon-nav flex items-center gap-4">
@@ -162,17 +173,7 @@
 
 
 
-    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/iconify-icon/dist/iconify-icon.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/@preline/dropdown/index.js') }}"></script>
-    <script src="{{ asset('assets/libs/@preline/overlay/index.js') }}"></script>
-    <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
 
-
-    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 </body>
 
 </html>

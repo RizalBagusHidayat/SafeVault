@@ -76,7 +76,7 @@ class AuthController extends Controller
             Auth::login($newUser);
         }
 
-        return redirect()->intended('dashboard');
+        return redirect()->route('dashboard');
     }
 
     public function redirectToFacebook() {

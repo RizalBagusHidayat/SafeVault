@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
+        "./node_modules/preline/dist/*.js",
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
@@ -19,5 +20,5 @@ module.exports = {
             },
         },
     },
-    plugins: [],
+    plugins: [require("preline/plugin")],
 };
