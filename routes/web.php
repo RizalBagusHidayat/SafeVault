@@ -16,10 +16,11 @@ use App\Http\Controllers\GoogleController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('auth/login', [AuthController::class, 'indexLogin'])->name('login');
+
 Route::get('auth/register', [AuthController::class, 'indexRegister'])->name('register');
 
 Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
@@ -27,10 +28,13 @@ Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback
 Route::get('auth/facebook', [AuthController::class, 'redirectToFacebook'])->name('auth.facebook');
 Route::get('auth/facebook/callback', [AuthController::class, 'handleFacebookCallback']);
 
+Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
 Route::get('/dashboard', function () {
+
     $user = Auth::user();
+    // dd($user);
     return view('dashboard.index', compact('user'));
 })->name('dashboard');
 Route::get('/account-manager', function () {
