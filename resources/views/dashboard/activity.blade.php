@@ -1,61 +1,13 @@
 @extends('layouts.dashboard')
 @push('styles')
     <style>
-        /* .dt-layout-row:has(.dt-search),
-                                                                .dt-layout-row:has(.dt-length),
-                                                                .dt-layout-row:has(.dt-paging) {
-                                                                    display: none !important;
-                                                                } */
+        .dt-length .dt-input {
+            /* display: none !important; */
+            min-width: 72px !important;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
 @endpush
-@push('scripts')
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script>
-        let table = new DataTable('#myTable');
-        $.ajax({
-            url: "{{ route('api.activity') }}",
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                console.log(data);
-            }
-        });
-        $(document).ready(function() {
-            $('#myTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('api.activity') }}",
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataSrc: function(json) {
-                        // Mengembalikan data array untuk DataTables
-                        return json.data;
-                    }
-                },
-                columns: [{
-                        data: 'user',
-                        name: 'user'
-                    },
-                    {
-                        data: 'timestamp',
-                        name: 'timestamp'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action'
-                    }
-                ],
-                order: [
-                    [1, 'desc']
-                ]
-            });
-        });
-    </script>
-@endpush
+@include('dashboard.js.activity')
 @section('content')
     <div class="container full-container py-5 flex flex-col gap-6">
         <div class="grid grid-cols-1 lg:grid-cols-1 lg:gap-x-6 gap-x-0 gap-y-6">

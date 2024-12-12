@@ -19,12 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('auth/register', [AuthController::class,'register'])->name('auth.register');
+Route::post('auth/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('auth/login', [AuthController::class, 'login'])->name('auth.login');
-
-
-
 Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+
+
 Route::get('activity', function () {
     $data = [
         [
@@ -40,5 +40,3 @@ Route::get('activity', function () {
         'data' => $data
     ], 200);
 })->name('api.activity');
-
-

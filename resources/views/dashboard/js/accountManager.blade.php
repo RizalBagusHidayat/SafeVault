@@ -23,4 +23,12 @@
                 alert('Terjadi kesalahan.');
             });
     }
+    $.ajax({
+        url: "/api/activity",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+        },
+    });
 </script>

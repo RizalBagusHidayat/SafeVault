@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GoogleController;
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,8 @@ Route::get('auth/facebook/callback', [AuthController::class, 'handleFacebookCall
 
 
 Route::get('/dashboard', function () {
-    return view('dashboard.index');
+    $user = Auth::user();
+    return view('dashboard.index', compact('user'));
 })->name('dashboard');
 Route::get('/account-manager', function () {
     return view('dashboard.accountManager');
