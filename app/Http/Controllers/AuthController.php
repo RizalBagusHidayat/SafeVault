@@ -16,52 +16,6 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-
-    // public function login(Request $request)
-    // {
-    //     // Validasi input dari user
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required|min:6',
-    //     ]);
-
-    //     // Ambil user berdasarkan email
-    //     $user = User::where('email', $request->input('email'))->first();
-
-    //     // Periksa apakah user ditemukan dan password sesuai
-    //     if ($user && Hash::check($request->input('password'), $user->password)) {
-    //         // Login user
-    //         Auth::login($user);
-    //         // Redirect ke dashboard
-    //         // dd(Auth::user());
-    //         return redirect()->intended('dashboard');
-    //     }
-
-    //     // Jika gagal, kembali ke halaman login dengan pesan error
-    //     return redirect()->route('login')->with('error', 'Invalid email or password.');
-    // }
-    // public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //     ]);
-
-    //     if (!Auth::attempt($request->only('email', 'password'))) {
-    //         return response()->json([
-    //             'message' => 'Invalid login credentials.'
-    //         ], 401);
-    //     }
-
-    //     $user = Auth::user();
-
-    //     return response()->json([
-    //         'message' => 'Login successful.',
-    //         'user' => $user,
-    //         'redirect_url' => url('/dashboard'), // URL tujuan untuk redirect
-    //     ]);
-    // }
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');

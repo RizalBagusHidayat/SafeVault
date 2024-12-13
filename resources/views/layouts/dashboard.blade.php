@@ -13,7 +13,9 @@
     <!-- Core CSS -->
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons/tabler-icons.css') }}" />
+    {{-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" /> --}}
 
     @stack('styles')
 

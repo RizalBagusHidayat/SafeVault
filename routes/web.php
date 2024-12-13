@@ -34,21 +34,30 @@ Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout
 Route::get('/dashboard', function () {
 
     $user = Auth::user();
-    // dd($user);
     return view('dashboard.index', compact('user'));
 })->name('dashboard');
 Route::get('/account-manager', function () {
-    return view('dashboard.accountManager');
+    $user = Auth::user();
+
+    return view('dashboard.accountManager', compact('user'));
 })->name('account-manager');
 Route::get('/password-generator', function () {
-    return view('dashboard.passwordGenerator');
+    $user = Auth::user();
+
+    return view('dashboard.passwordGenerator', compact('user'));
 })->name('password-generator');
 Route::get('/activity', function () {
-    return view('dashboard.activity');
+    $user = Auth::user();
+
+    return view('dashboard.activity', compact('user'));
 })->name('activity');
 Route::get('/security', function () {
-    return view('dashboard.security');
+    $user = Auth::user();
+
+    return view('dashboard.security', compact('user'));
 })->name('security');
-Route::get('/account-manager/{provider}', function () {
-    return view('dashboard.detail-accountManager');
+Route::get('/account-manager/{provider}', function ($provider) {
+    $user = Auth::user();
+
+    return view('dashboard.detail-accountManager', compact('user', 'provider'));
 })->name('account-manager.provider');

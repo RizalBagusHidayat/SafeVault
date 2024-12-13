@@ -1,5 +1,6 @@
 @extends('layouts.dashboard')
 @include('dashboard.js.accountManager')
+
 @section('content')
     <div class="container full-container py-5 flex flex-col gap-6">
         <div class="grid grid-cols-1 lg:grid-cols-1 lg:gap-x-6 gap-x-0 gap-y-6">
@@ -35,8 +36,15 @@
                                 <h2 class="text-gray-600 text-xl font-semibold sm:mb-0 mb-2">Daftar Akun</h2>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Kelola akun Anda dengan mudah.</p>
                             </div>
-                            <button class="btn bg-primary font-semibold" onclick="openModal('addAccountModal')">Tambah
-                                Akun</button>
+                            <button
+                                class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md 
+                                        transition transform hover:scale-105 hover:bg-blue-700 hover:shadow-lg 
+                                        focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50
+                                        active:scale-95"
+                                onclick="openModal('addAccountModal')">
+                                Tambah Akun
+                            </button>
+                            <!-- Checkbox untuk mengontrol modal -->
                         </div>
                         <div class="sm:flex flex-col gap-2 mb-5">
                             <div class="grid grid-cols-1 sm:grid-cols-3">
@@ -83,6 +91,8 @@
         'id' => 'addAccountModal',
         'title' => 'Tambah Akun',
         'onSave' => 'saveAccount',
+        'cancelButtonText' => 'Kembali',
+        'saveButtonText' => 'Tambah',
         'slot' => View::make('partials.add-account-form'), // Form diletakkan di file terpisah
     ])
 @endsection
