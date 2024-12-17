@@ -19,16 +19,18 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('auth/login', [AuthController::class, 'indexLogin'])->name('login');
+Route::get('auth/login', function () {
+    return view('auth.login');
+})->name('login');
 
-Route::get('auth/register', [AuthController::class, 'indexRegister'])->name('register');
+Route::get('auth/register', function () {
+    return view('auth.register');
+})->name('register');
 
-Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-Route::get('auth/facebook', [AuthController::class, 'redirectToFacebook'])->name('auth.facebook');
-Route::get('auth/facebook/callback', [AuthController::class, 'handleFacebookCallback']);
+Route::get('auth/google/callback', [AuthController::class, 'googleCallback'])->name('auth.google.callback');
 
 Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
 
 
 Route::get('/dashboard', function () {

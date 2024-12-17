@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('platforms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Relasi ke tabel users
+            // $table->unsignedBigInteger('user_id'); // Relasi ke tabel users
             $table->string('name');
             $table->string('icon');
-
+            $table->enum('is_editable', [0, 1])->default(1);
+            
             $table->timestamps();
         });
     }

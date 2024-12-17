@@ -31,55 +31,25 @@
             <div class="col-span-3">
                 <div class="card">
                     <div class="card-body">
-                        <div class="flex justify-between mb-4">
+                        <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                             <div>
-                                <h2 class="text-gray-600 text-xl font-semibold sm:mb-0 mb-2">Daftar Akun</h2>
+                                <h2 class="text-gray-600 text-xl font-semibold">Daftar Akun</h2>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Kelola akun Anda dengan mudah.</p>
                             </div>
                             <button
                                 class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md 
                                         transition transform hover:scale-105 hover:bg-blue-700 hover:shadow-lg 
                                         focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50
-                                        active:scale-95"
-                                onclick="openModal('addAccountModal')">
+                                        active:scale-95 w-full sm:w-auto"
+                                id="btn-newAccount">
                                 Tambah Akun
                             </button>
-                            <!-- Checkbox untuk mengontrol modal -->
                         </div>
+
+
+
                         <div class="sm:flex flex-col gap-2 mb-5">
-                            <div class="grid grid-cols-1 sm:grid-cols-3">
-                                <div
-                                    class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b">
-                                    <div class="flex items-center justify-between py-5">
-                                        <div class="flex gap-2">
-                                            <span class="flex items-center justify-center rounded-full">
-                                                <img src="{{ asset('assets/images/icons/google.svg') }}" width="24px"
-                                                    height="24px" alt="Logo-Google" />
-                                            </span>
-                                            <h5 class="ml-4 text-lg text-gray-600 dark:text-gray-300 font-semibold">Google
-                                            </h5>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b">
-                                    <div class="flex items-center justify-between py-5">
-                                        <div class="flex gap-2">
-                                            <span class="flex items-center justify-center rounded-full">
-                                                <img src="{{ asset('assets/images/icons/facebook.svg') }}" width="24px"
-                                                    height="24px" alt="Logo-Google" />
-                                            </span>
-                                            <h5 class="ml-4 text-lg text-gray-600 dark:text-gray-300 font-semibold">Facebook
-                                            </h5>
-                                        </div>
-                                        <div>
-                                            <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3" id="account-list">
                             </div>
                         </div>
                     </div>
@@ -91,8 +61,14 @@
         'id' => 'addAccountModal',
         'title' => 'Tambah Akun',
         'onSave' => 'saveAccount',
-        'cancelButtonText' => 'Kembali',
         'saveButtonText' => 'Tambah',
         'slot' => View::make('partials.add-account-form'), // Form diletakkan di file terpisah
+    ])
+    @include('components.modal', [
+        'id' => 'addPlatformModal',
+        'title' => 'Tambah Platform',
+        'onSave' => 'savePlatform',
+        'saveButtonText' => 'Tambah',
+        'slot' => View::make('partials.add-platform-form'), // Form diletakkan di file terpisah
     ])
 @endsection

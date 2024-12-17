@@ -3,96 +3,102 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    public function indexLogin()
-    {
-        // dd(Auth::user());
-        return view('auth.login');
-    }
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            $user = User::where('email', $request->user()->email)->first();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Login successful.',
+                'user' => $user,
+                'token' => $token,
+                'redirect' => '/dashboard'
+            ], 200);
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
-    }
-
-
-
-
-    public function indexRegister()
-    {
-        return view('auth.register');
+        return response()->json([
+            'message' => 'Invalid email or password.'
+        ], 401);
     }
 
     public function register(Request $request)
     {
-        $validator = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
-        $email = $request->input('email');
-        $password = $request->input('password');
 
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $email,
-            'password' => Hash::make($password),
-            'provider_id' => null,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
-        // Redirect ke halaman login setelah berhasil mendaftar
-        return redirect()->route('login')->with('success', 'Registration successful, please log in.');
+        if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Registration successful.',
+                'user' => $user,
+                'token' => $token,
+                'redirect' => '/dashboard'
+            ], 201);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Authentication failed after registration.'
+        ], 500);
     }
 
-    public function redirectToGoogle()
+    public function googleRedirect()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function googleCallback()
     {
-        $user = Socialite::driver('google')->user();
-        $finduser = User::where('email', $user->email)->first();
+        $googleUser = Socialite::driver('google')->user();
+        $user = User::firstOrCreate(
+            ['email' => $googleUser->email],
+            [
+                'name' => $googleUser->name,
+                'provider_id' => $googleUser->id,
+                'password' => Str::random(32),
+            ]
+        );
 
-        if ($finduser) {
-            // dd($finduser);
-            Auth::login($finduser);
-        } else {
-            $newUser = User::create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'provider_id' => $user->id,
-                'password' => Hash::make('123123')
-            ]);
-
-            Auth::login($newUser);
-        }
+        Auth::login($user);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return redirect()->route('dashboard');
     }
 
-    public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
     public function logout(Request $request)
     {
+        // Hapus semua token akses pengguna
+        $request->user()->tokens()->delete();
         Auth::logout();
-        return redirect()->route('login');
+        return response()->json([
+            'status' => true,
+            'message' => 'Logged out successfully.',
+            'redirect' => '/auth/login'
+        ], 200);
     }
 }

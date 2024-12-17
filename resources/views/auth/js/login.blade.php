@@ -1,7 +1,7 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('#registerForm').submit(function(e) {
+            $('#loginForm').submit(function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
 

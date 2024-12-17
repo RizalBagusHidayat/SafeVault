@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Platform extends Model
 {
     use HasFactory;
+
+    // Menjaga properti tertentu agar tidak dapat diisi langsung
+    protected $guarded = ['id'];
+
+    /**
+     * Relasi: Platform -> Account
+     * Satu platform memiliki banyak account.
+     */
+    public function accounts()
+    {
+        return $this->hasMany(Account::class, 'platform_id', 'id'); // platform_id foreign key, id primary key
+    }
+
+    public function scopeWithAccounts($query)
+    {
+        return $query->whereHas('accounts');
+    }
 }

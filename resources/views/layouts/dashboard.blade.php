@@ -8,12 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/icons/logo.svg') }}">
+
 
     <!-- Core CSS -->
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons/tabler-icons.css') }}" />
+
     {{-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" /> --}}
 
@@ -80,6 +82,7 @@
                                 <div class="px-4 py-2 border-b text-gray-700">
                                     <p class="text-sm font-semibold">{{ $user->name }}</p>
                                     <p class="text-xs text-gray-500">{{ $user->email }}</p>
+                                    <input type="hidden" id="user-id" value="{{ $user->id }}">
                                 </div>
                                 <div class="p-1 space-y-0.5">
                                     <a href="javascript:void(0)"
@@ -98,9 +101,8 @@
                                         <span class="text-sm">My Task</span>
                                     </a>
                                     <div class="px-4 mt-2">
-                                        <form action="{{ route('auth.logout') }}" method="POST">
+                                        <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm">
                                             @csrf
-
                                             <input type="hidden" name="user" value="{{ $user }}">
                                             <button type="submit"
                                                 class="block w-full text-center border border-blue-500 text-blue-500 py-2 rounded-md hover:bg-blue-600 hover:text-white mt-2">
@@ -111,43 +113,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="hs-dropdown relative inline-flex items-center gap-4">
-                            <div
-                                class="z-50 relative inline-flex hs-dropdown [--placement:bottom-right] sm:[--trigger:hover]">
-                                <a class="relative cursor-pointer align-middle rounded-full hs-dropdown-toggle">
-                                    <img class="object-cover w-9 h-9 rounded-full"
-                                        src="../assets/images/profile/user-1.jpg" alt="User Profile"
-                                        aria-hidden="true" />
-                                </a>
-                                <div
-                                    class="hidden hs-dropdown-menu transition-opacity duration-200 opacity-0 hs-dropdown-open:opacity-100 mt-2 z-20 min-w-[200px] w-[200px] bg-white border border-gray-300 rounded-lg shadow-lg">
-                                    <div class="py-2">
-                                        <a href="javascript:void(0)"
-                                            class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">
-                                            <i class="ti ti-user text-xl"></i>
-                                            <span class="text-sm">My Profile</span>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">
-                                            <i class="ti ti-mail text-xl"></i>
-                                            <span class="text-sm">My Account</span>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">
-                                            <i class="ti ti-list-check text-xl"></i>
-                                            <span class="text-sm">My Task</span>
-                                        </a>
-                                        <div class="px-4 mt-2">
-                                            <a href="../../pages/authentication-login.html"
-                                                class="block w-full text-center border border-blue-500 text-blue-500 py-2 rounded-md hover:bg-blue-600 hover:text-white">
-                                                Logout
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-
                     </nav>
                 </header>
 
@@ -162,6 +127,7 @@
     <!-- Scripts -->
     <script src="{{ asset('assets/js/jquery.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('assets/libs/iconify-icon/dist/iconify-icon.min.js') }}"></script>
     <script src="{{ asset('assets/libs/@preline/dropdown/index.js') }}"></script>
     <script src="{{ asset('assets/libs/@preline/overlay/index.js') }}"></script>
@@ -169,7 +135,29 @@
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     @vite('resources/js/app.js')
     @stack('scripts')
+    <script>
+        $('#logoutForm').submit(function(e) {
+            e.preventDefault(); // Mencegah pengiriman form secara default
 
+            const formData = $(this).serialize(); // Serialisasi data form
+            const actionUrl = $(this).attr('action'); // Ambil URL dari atribut action
+
+            $.ajax({
+                url: actionUrl, // URL endpoint
+                type: 'POST', // Metode HTTP
+                data: formData, // Data yang akan dikirim
+                success: function(response) {
+                    console.log(response); // Log respons dari server
+                    if (response.status) {
+                        window.location.href = response.redirect;
+                    } else {
+                        // Tampilkan pesan error dari server
+                        alert(response.message);
+                    }
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

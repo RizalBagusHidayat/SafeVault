@@ -1,5 +1,6 @@
 @extends('layouts.auth')
 @section('title', 'Login')
+@include('auth.js.login')
 
 @section('content')
     <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -11,7 +12,7 @@
                         <span>{{ session('success') }}</span>
                     </div>
                 @endif
-                <form action="{{ route('auth.login') }}" method="POST">
+                <form method="POST" id="loginForm" action="{{ route('auth.login') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -35,9 +36,6 @@
                             onclick="window.location.href='{{ route('auth.google') }}'">
                             <i class="fab fa-google me-2"></i>Google
                         </button>
-                        {{-- <button type="button" class="btn btn-outline-primary w-100 w-md-auto" style="min-width: 120px;">
-                            <i class="fab fa-facebook me-2"></i>Facebook
-                        </button> --}}
                     </div>
                 </form>
             </div>
