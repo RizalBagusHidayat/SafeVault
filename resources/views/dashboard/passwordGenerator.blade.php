@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="sm:flex flex-col gap-2 mb-5">
-                            <h4 class="text-primary text-lg font-semibold sm:mb-0 mb-2">
+                            <h4 class=" text-lg font-semibold sm:mb-0 mb-2">
                                 Password Generator
                             </h4>
                             <ol class="flex items-center whitespace-nowrap gap-1" aria-label="Breadcrumb">

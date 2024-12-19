@@ -21,8 +21,11 @@ class Platform extends Model
         return $this->hasMany(Account::class, 'platform_id', 'id'); // platform_id foreign key, id primary key
     }
 
-    public function scopeWithAccounts($query)
+    public function scopeWithAccounts($query, $userId)
     {
-        return $query->whereHas('accounts');
+        return $query->whereHas('accounts', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        });
+        
     }
 }

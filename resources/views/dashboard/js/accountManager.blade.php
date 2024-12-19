@@ -48,12 +48,6 @@
             });
         });
 
-        function savePlatform() {
-            console.log('clicked');
-
-
-        }
-
         function loadAccountManager() {
             $.ajax({
                 url: `{{ route('platform.index') }}`,

@@ -14,7 +14,10 @@ class PlatformController extends Controller
      */
     public function index() //Show whereIn account
     {
-        $platform = Platform::withAccounts()->get();
+        $user = Auth::user();
+        $platform = Platform::with(['accounts' => function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        }])->withAccounts($user->id)->get();
 
         return response()->json([
             'status' => true,
