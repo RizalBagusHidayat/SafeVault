@@ -15,7 +15,6 @@ class AccountController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // dd($user);
         $data = Account::where('user_id', $user->id)->get();
 
         return response()->json([

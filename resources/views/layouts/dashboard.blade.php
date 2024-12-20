@@ -46,8 +46,8 @@
                                 </a>
                             </li>
                             <li>
-                                <div class="hs-dropdown relative inline-flex">
-                                    <a class="relative hs-dropdown-toggle icon-hover text-gray-600" href="#">
+                                <div class="hs-dropdown [--trigger:hover] relative inline-flex">
+                                    <a class="relative hs-dropdown-toggle text-gray-600" href="#">
                                         <i class="ti ti-bell-ringing text-xl"></i>
                                         <div
                                             class="absolute bg-blue-600 w-2 h-2 rounded-full top-0 right-0 transform translate-x-1/2 -translate-y-1/2">

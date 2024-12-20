@@ -17,13 +17,11 @@ Route::get('auth/google', [AuthController::class, 'googleRedirect'])->name('auth
 Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::post('setPin', [AuthController::class, 'setPin'])->name('setPin');
-// Route::post('verifyPin', [AuthController::class, 'verifyPin'])->name('verifyPin');
 Route::post('verifyPin', [AuthController::class, 'verifyPin'])->name('verifyPin');
-
-
 
 Route::resource('account', AccountController::class);
 Route::resource('platform', PlatformController::class);
+
 Route::get('activity', function () {
     $data = [
         [

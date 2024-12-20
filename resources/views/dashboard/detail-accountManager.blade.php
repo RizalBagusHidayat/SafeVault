@@ -44,8 +44,86 @@
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Kelola akun Anda dengan mudah.</p>
                             </div>
                         </div>
-
-
+                        <div class="overflow-x-auto border border-gray-300 rounded-lg shadow-sm mb-6">
+                            <table class="table-auto w-full border-collapse border-gray-300">
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Nama Akun</td>
+                                        <td class="px-4 py-3 align-top text-gray-600">http://127.0.0.1:8000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Nama Pengguna</td>
+                                        <td class="px-4 py-3 align-top flex items-center gap-2 text-gray-600">
+                                            <span>peternak</span>
+                                            <button class="text-blue-500 hover:underline"
+                                                onclick="copyToClipboard('peternak')">Salin</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Kata Sandi</td>
+                                        <td class="px-4 py-3 align-top flex items-center gap-2 text-gray-600">
+                                            <span>••••••••</span>
+                                            <button class="text-blue-500 hover:underline"
+                                                onclick="togglePassword()">Lihat</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Catatan</td>
+                                        <td class="px-4 py-3 align-top text-gray-500">Tidak ada catatan yang ditambahkan
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- Tombol Aksi -->
+                            <div class="flex justify-end p-4 gap-2">
+                                <button
+                                    class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-600"
+                                    onclick="editAccount()">Edit</button>
+                                <button
+                                    class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600"
+                                    onclick="deleteAccount()">Hapus</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto border border-gray-300 rounded-lg shadow-sm mb-6">
+                            <table class="table-auto w-full border-collapse border-gray-300">
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Nama Akun</td>
+                                        <td class="px-4 py-3 align-top text-gray-600">http://127.0.0.1:8000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Nama Pengguna</td>
+                                        <td class="px-4 py-3 align-top flex items-center gap-2 text-gray-600">
+                                            <span>peternak</span>
+                                            <button class="text-blue-500 hover:underline"
+                                                onclick="copyToClipboard('peternak')">Salin</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Kata Sandi</td>
+                                        <td class="px-4 py-3 align-top flex items-center gap-2 text-gray-600">
+                                            <span>••••••••</span>
+                                            <button class="text-blue-500 hover:underline"
+                                                onclick="togglePassword()">Lihat</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Catatan</td>
+                                        <td class="px-4 py-3 align-top text-gray-500">Tidak ada catatan yang ditambahkan
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- Tombol Aksi -->
+                            <div class="flex justify-end p-4 gap-2">
+                                <button
+                                    class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-600"
+                                    onclick="editAccount()">Edit</button>
+                                <button
+                                    class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600"
+                                    onclick="deleteAccount()">Hapus</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
