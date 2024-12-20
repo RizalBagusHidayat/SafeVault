@@ -25,6 +25,7 @@
 </head>
 
 <body class="bg-gray-100">
+    @include('components.pin')
     <main>
         <!-- Project Wrapper -->
         <div id="main-wrapper" class="flex">
@@ -101,14 +102,12 @@
                                         <span class="text-sm">My Task</span>
                                     </a>
                                     <div class="px-4 mt-2">
-                                        <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm">
-                                            @csrf
-                                            <input type="hidden" name="user" value="{{ $user }}">
-                                            <button type="submit"
-                                                class="block w-full text-center border border-blue-500 text-blue-500 py-2 rounded-md hover:bg-blue-600 hover:text-white mt-2">
-                                                Logout
-                                            </button>
-                                        </form>
+                                        <input type="hidden" name="user" value="{{ $user }}">
+                                        <button type="button"
+                                            class="block w-full text-center border border-blue-500 text-blue-500 py-2 rounded-md hover:bg-blue-600 hover:text-white mt-2"
+                                            id="btn-logout">
+                                            Logout
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -136,25 +135,18 @@
     @vite('resources/js/app.js')
     @stack('scripts')
     <script>
-        $('#logoutForm').submit(function(e) {
-            e.preventDefault(); // Mencegah pengiriman form secara default
-
-            const formData = $(this).serialize(); // Serialisasi data form
-            const actionUrl = $(this).attr('action'); // Ambil URL dari atribut action
-
+        $('#btn-logout').click(function() {
             $.ajax({
-                url: actionUrl, // URL endpoint
-                type: 'POST', // Metode HTTP
-                data: formData, // Data yang akan dikirim
-                success: function(response) {
-                    console.log(response); // Log respons dari server
-                    if (response.status) {
-                        window.location.href = response.redirect;
-                    } else {
-                        // Tampilkan pesan error dari server
-                        alert(response.message);
-                    }
+                url: "{{ route('auth.logout') }}",
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
                 },
+                success: function(response) {
+                    if (response.status == true) {
+                        window.location.href = '{{ route('login') }}';
+                    }
+                }
             });
         });
     </script>

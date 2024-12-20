@@ -1,5 +1,5 @@
 @push('scripts')
-    <script>
+    {{-- <script>
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove("hidden");
@@ -27,7 +27,7 @@
         //         closeModal(id);
         //     }
         // }
-    </script>
+    </script> --}}
 @endpush
 
 <div id="{{ $id }}"

@@ -29,37 +29,40 @@ Route::get('auth/register', function () {
 
 Route::get('auth/google/callback', [AuthController::class, 'googleCallback'])->name('auth.google.callback');
 
-Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
 
 
 
 Route::get('/dashboard', function () {
-
     $user = Auth::user();
-    return view('dashboard.index', compact('user'));
-})->name('dashboard');
+    $showPinModal = request()->get('showPinModal', false);
+
+    return view('dashboard.index', compact('user', 'showPinModal'));
+})->middleware('checkPin')->name('dashboard');
+
 Route::get('/account-manager', function () {
     $user = Auth::user();
-
-    return view('dashboard.accountManager', compact('user'));
-})->name('account-manager');
+    $showPinModal = request()->get('showPinModal', false);
+    return view('dashboard.accountManager', compact('user', 'showPinModal'));
+})->middleware('checkPin')->name('account-manager');
 Route::get('/password-generator', function () {
     $user = Auth::user();
-
-    return view('dashboard.passwordGenerator', compact('user'));
+    $showPinModal = request()->get('showPinModal', false);
+    return view('dashboard.passwordGenerator', compact('user', 'showPinModal'));
 })->name('password-generator');
 Route::get('/activity', function () {
     $user = Auth::user();
-
-    return view('dashboard.activity', compact('user'));
+    $showPinModal = request()->get('showPinModal', false);
+    return view('dashboard.activity', compact('user', 'showPinModal'));
 })->name('activity');
 Route::get('/security', function () {
     $user = Auth::user();
-
-    return view('dashboard.security', compact('user'));
+    $showPinModal = request()->get('showPinModal', false);
+    return view('dashboard.security', compact('user', 'showPinModal'));
 })->name('security');
 Route::get('/account-manager/{provider}', function ($provider) {
     $user = Auth::user();
+    $showPinModal = request()->get('showPinModal', false);
 
-    return view('dashboard.detail-accountManager', compact('user', 'provider'));
+    return view('dashboard.detail-accountManager', compact('user', 'provider', 'showPinModal'));
 })->name('account-manager.provider');

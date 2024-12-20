@@ -1,27 +1,27 @@
 @push('scripts')
     <script>
-        $('#saveAccount').click(function(e) {
+        $("#saveAccount").click(function(e) {
             e.preventDefault();
-            const form = document.getElementById('addAccountForm');
+            const form = document.getElementById("addAccountForm");
             const formData = new FormData(form);
 
             $.ajax({
-                url: `{{ route('account.store') }}`,
-                type: 'POST',
+                url: `/api/account`,
+                type: "POST",
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    closeModal('addAccountModal');
+                    closeModal("addAccountModal");
                     loadAccountManager();
                 },
                 error: function(xhr, status, error) {
-                    alert('Terjadi kesalahan.');
-                }
+                    alert("Terjadi kesalahan.");
+                },
             });
-        })
-        $('#savePlatform').click(function(e) {
-            const form = document.getElementById('addPlatformForm');
+        });
+        $("#savePlatform").click(function(e) {
+            const form = document.getElementById("addPlatformForm");
             const formData = new FormData(form);
             const myDropzone = Dropzone.forElement("#dropzone-basic");
 
@@ -31,97 +31,96 @@
             }
 
             $.ajax({
-                url: `{{ route('platform.store') }}`,
-                type: 'POST',
+                url: `/api/platform`,
+                type: "POST",
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(data) {
                     // alert('Platform berhasil ditambahkan!');
-                    closeModal('addPlatformModal');
+                    closeModal("addPlatformModal");
                     loadAccountManager();
-
                 },
                 error: function(xhr, status, error) {
-                    alert('Terjadi kesalahan.');
-                }
+                    alert("Terjadi kesalahan.");
+                },
             });
         });
 
         function loadAccountManager() {
             $.ajax({
-                url: `{{ route('platform.index') }}`,
-                type: 'GET',
+                url: `/api/platform `,
+                type: "GET",
                 success: function(response) {
-                    const container = $('#account-list');
+                    const container = $("#account-list");
                     container.empty();
 
                     response.data.forEach(function(platform) {
                         console.log(platform);
 
-                        const iconPath = platform.is_editable == 0 ?
-                            `{{ asset('assets/images/icons/${platform.icon}') }}` :
-                            `{{ asset('assets/images/icons/users/${platform.icon}') }}`;
+                        const iconPath =
+                            platform.is_editable == 0 ?
+                            `assets/images/icons/${platform.icon}` :
+                            `assets/images/icons/users/${platform.icon}`;
 
                         const html = `
-                        <div class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b">
-                            <div class="flex items-center justify-between py-5">
-                                <div class="flex gap-2">
-                                    <span class="flex items-center justify-center rounded-full">
-                                        <img src="${iconPath}" width="24px" height="24px" alt="Logo-${platform.name}" />
-                                    </span>
-                                    <h5 class="ml-4 text-lg text-gray-600 dark:text-gray-300 font-semibold">${platform.name}</h5>
-                                </div>
-                                <div>
-                                    <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
-                                </div>
-                            </div>
+                <a class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b" href="/account-manager/${platform.name}">
+                    <div class="flex items-center justify-between py-5">
+                        <div class="flex gap-2">
+                            <span class="flex items-center justify-center rounded-full">
+                                <img src="${iconPath}" width="24px" height="24px" alt="Logo-${platform.name}" />
+                            </span>
+                            <h5 class="ml-4 text-lg text-gray-600 dark:text-gray-300 font-semibold">${platform.name}</h5>
                         </div>
-                        `;
+                        <div>
+                            <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
+                        </div>
+                    </div>
+                </button>
+                `;
                         container.append(html);
                     });
                 },
                 error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
+                    console.error("Error:", error);
+                },
             });
         }
 
-        $('#btn-newPlatform').click(function(e) {
+        $("#btn-newPlatform").click(function(e) {
             e.preventDefault();
-            $('#platformName').val('');
+            $("#platformName").val("");
             const myDropzone = Dropzone.forElement("#dropzone-basic");
             myDropzone.removeAllFiles();
-            closeModal('addAccountModal');
-            openModal('addPlatformModal');
+            closeModal("addAccountModal");
+            openModal("addPlatformModal");
         });
-        $('#btn-newAccount').click(function(e) {
+        $("#btn-newAccount").click(function(e) {
             e.preventDefault();
-            openModal('addAccountModal');
-            $('#customFieldsContainer').empty();
+            openModal("addAccountModal");
+            $("#customFieldsContainer").empty();
 
             $.ajax({
-                url: `{{ route('platform.show', ['platform' => ':platform']) }}`.replace(':platform', $(
-                    '#user-id').val()),
-                type: 'GET',
+                url: `/api/platform/${$("#user-id").val()}`,
+                type: "GET",
                 success: function(response) {
                     console.log(response);
 
-                    $('#accountType').empty();
-                    $('#accountType').append(
-                        '<option value="" disabled selected hidden>Pilih platform</option>');
+                    $("#accountType").empty();
+                    $("#accountType").append(
+                        '<option value="" disabled selected hidden>Pilih platform</option>'
+                    );
                     $.each(response.data, function(index, platform) {
-                        $('#accountType').append(
+                        $("#accountType").append(
                             `<option value="${platform.id}">${platform.name}</option>`
                         );
                     });
                 },
                 error: function(xhr, status, error) {
-                    alert('Terjadi kesalahan saat mengambil data platform.');
-                }
+                    alert("Terjadi kesalahan saat mengambil data platform.");
+                },
             });
         });
-
 
         $(document).ready(function() {
             loadAccountManager();
@@ -134,14 +133,16 @@
                 dictDefaultMessage: "Letakkan file di sini atau klik untuk mengunggah.",
                 dictRemoveFile: "<i class='ti ti-trash text-danger text-xl'></i>",
                 success: function(file, response) {
-                    console.log('File uploaded successfully:', response);
+                    console.log("File uploaded successfully:", response);
                 },
                 error: function(file, errorMessage) {
                     console.error("Upload error:", errorMessage);
                 },
-
             });
-
         });
+
+        function detailAccountManager() {
+            console.log("detailAccountManager");
+        }
     </script>
 @endpush

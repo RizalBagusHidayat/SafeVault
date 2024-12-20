@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -47,6 +48,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'pin' => null,
         ]);
 
         if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
@@ -81,6 +83,7 @@ class AuthController extends Controller
                 'name' => $googleUser->name,
                 'provider_id' => $googleUser->id,
                 'password' => Str::random(32),
+                'pin' => null,
             ]
         );
 
@@ -95,10 +98,44 @@ class AuthController extends Controller
         // Hapus semua token akses pengguna
         $request->user()->tokens()->delete();
         Auth::logout();
+        Cookie::queue(Cookie::forget('user_pin'));
         return response()->json([
             'status' => true,
             'message' => 'Logged out successfully.',
-            'redirect' => '/auth/login'
         ], 200);
+    }
+
+    public function setPin(Request $request)
+    {
+        $pin = $request->input('pin');
+        $user = User::find(Auth::user()->id);
+        $user->pin = $pin;
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pin set successfully.'
+        ], 200);
+    }
+
+    public function verifyPin(Request $request)
+    {
+        $pin = $request->input('pin');
+        $user = User::find(Auth::user()->id);
+
+        if ($user->pin == $pin) {
+            // Set a cookie to indicate PIN is verified
+            Cookie::queue('user_pin', true, 60); // Cookie will expire in 60 minutes
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Pin verified successfully.'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Pin verification failed.'
+            ], 401);
+        }
     }
 }
