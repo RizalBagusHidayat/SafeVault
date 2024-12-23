@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Account;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -42,12 +43,14 @@ class AccountController extends Controller
             'accountType' => 'required|integer',
             'customLabel' => 'required|array',
             'customValue' => 'required|array',
+            'customHidden' => 'sometimes|array',
         ]);
 
         // Ambil data dari request
         $accountType = $validatedData['accountType'];
         $customLabels = $validatedData['customLabel'];
         $customValues = $validatedData['customValue'];
+        $customHidden = $validatedData['customHidden'];
 
         // Inisialisasi array untuk menyimpan hasil gabungan
         $accountDetail = [];
@@ -58,6 +61,7 @@ class AccountController extends Controller
                 $accountDetail[] = [
                     'label' => $label,
                     'value' => $customValues[$key],
+                    'hidden' => isset($customHidden[$key]) ? $customHidden[$key] : '0',
                 ];
             }
         }
@@ -85,16 +89,16 @@ class AccountController extends Controller
                 'accountDetail' => $accountDetail,
             ],
         ], 201);
-        dd($request);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($account)
     {
         $user = Auth::user();
-        $data = Account::with('platform')->where('user_id', $user->id)->get();
+        $platform = Platform::where('name', $account)->first();
+        $data = Account::with('platform')->where('user_id', $user->id)->where('platform_id', $platform->id)->get();
 
         return response()->json([
             'status' => true,
