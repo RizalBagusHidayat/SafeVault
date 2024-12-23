@@ -44,6 +44,7 @@ class AccountController extends Controller
             'customLabel' => 'required|array',
             'customValue' => 'required|array',
             'customHidden' => 'sometimes|array',
+            'notes' => 'nullable|string'
         ]);
 
         // Ambil data dari request
@@ -51,6 +52,7 @@ class AccountController extends Controller
         $customLabels = $validatedData['customLabel'];
         $customValues = $validatedData['customValue'];
         $customHidden = $validatedData['customHidden'];
+        $notes = $validatedData['notes'];
 
         // Inisialisasi array untuk menyimpan hasil gabungan
         $accountDetail = [];
@@ -79,6 +81,7 @@ class AccountController extends Controller
             'platform_id' => $accountType,
             'user_id' => $user->id,
             'account_details' => json_encode($accountDetail),
+            'notes' => $notes
         ]);
 
         return response()->json([
@@ -112,7 +115,18 @@ class AccountController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $account = Account::find($id);
+        if (!$account) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Account not found',
+            ], 404);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Account data fetched successfully',
+            'data' => $account
+        ]);
     }
 
     /**
@@ -120,7 +134,55 @@ class AccountController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $account = Account::find($id);
+        if (!$account) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Account not found',
+            ], 404);
+        }
+        $validatedData = $request->validate([
+            'accountType' => 'required|integer',
+            'customLabel' => 'required|array',
+            'customValue' => 'required|array',
+            'customHidden' => 'sometimes|array',
+            'notes' => 'nullable|string'
+        ]);
+
+        // Ambil data dari request
+        $accountType = $validatedData['accountType'];
+        $customLabels = $validatedData['customLabel'];
+        $customValues = $validatedData['customValue'];
+        $customHidden = $validatedData['customHidden'];
+        $notes = $validatedData['notes'];
+
+        // Inisialisasi array untuk menyimpan hasil gabungan
+        $accountDetail = [];
+
+        // Gabungkan customLabel dan customValue, abaikan label yang kosong/null
+        foreach ($customLabels as $key => $label) {
+            if (!empty($label) && isset($customValues[$key])) {
+                $accountDetail[] = [
+                    'label' => $label,
+                    'value' => $customValues[$key],
+                    'hidden' => isset($customHidden[$key]) ? $customHidden[$key] : '0',
+                ];
+            }
+        }
+
+        // Cek jika tidak ada accountDetail yang valid
+        if (empty($accountDetail)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Custom fields tidak boleh kosong atau null!',
+            ], 400);
+        }
+
+        // Simpan data ke database
+        $account->platform_id = $accountType;
+        $account->account_details = json_encode($accountDetail);
+        $account->notes = $notes;
+        $account->save();
     }
 
     /**
@@ -128,6 +190,18 @@ class AccountController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if (empty($id)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'ID does not exist',
+            ], 400);
+        }
+        $account = Account::find($id);
+        $account->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Account deleted successfully'
+        ]);
     }
 }

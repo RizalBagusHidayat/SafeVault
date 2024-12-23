@@ -51,6 +51,12 @@
             </div>
 
         </div>
-
     </div>
+    @include('components.modal', [
+        'id' => 'updateAccountModal',
+        'title' => 'Ubah Akun',
+        'onSave' => 'updateAccount',
+        'saveButtonText' => 'Ubah',
+        'slot' => View::make('partials.update-account-form'), // Form diletakkan di file terpisah
+    ])
 @endsection

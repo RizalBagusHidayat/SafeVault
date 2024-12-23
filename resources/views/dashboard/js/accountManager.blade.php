@@ -106,7 +106,6 @@
         });
         $("#btn-newAccount").click(function(e) {
             e.preventDefault();
-            openModal("addAccountModal");
             $("#customFieldsContainer").empty();
 
             $.ajax({
@@ -127,6 +126,7 @@
                     alert("Terjadi kesalahan saat mengambil data platform.");
                 },
             });
+            openModal("addAccountModal");
         });
 
         $(document).ready(function() {

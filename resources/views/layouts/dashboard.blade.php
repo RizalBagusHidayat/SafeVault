@@ -6,6 +6,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Favicon -->
@@ -15,6 +17,7 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.css') }}">
 
     {{-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> --}}
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" /> --}}
@@ -132,20 +135,37 @@
     <script src="{{ asset('assets/libs/@preline/overlay/index.js') }}"></script>
     <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.all.min.js') }}"></script>
     {{-- @vite('resources/js/app.js') --}}
     @stack('scripts')
     <script>
-        $('#btn-logout').click(function() {
-            $.ajax({
-                url: "{{ route('auth.logout') }}",
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.status == true) {
-                        window.location.href = '{{ route('login') }}';
-                    }
+        $('#btn-logout').click(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Keluar',
+                text: "Apakah Anda yakin ingin keluar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'min-w-24',
+                cancelButtonClass: 'min-w-24',
+                confirmButtonColor: '#3490dc',
+                cancelButtonColor: '#e74c3c',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('auth.logout') }}",
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.status == true) {
+                                window.location.href = '{{ route('login') }}';
+                            }
+                        }
+                    });
                 }
             });
         });

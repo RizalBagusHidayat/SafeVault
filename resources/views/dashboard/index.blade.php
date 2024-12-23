@@ -199,7 +199,7 @@
                         <div class="relative overflow-x-auto">
                             <!-- table -->
                             <table class="text-left w-full whitespace-nowrap text-sm">
-                                < class="text-gray-700">
+                                <thead class="text-gray-700">
                                     <tr class="font-semibold text-gray-600">
                                         <th scope="col" class="p-4">Id</th>
                                         <th scope="col" class="p-4">Assigned</th>

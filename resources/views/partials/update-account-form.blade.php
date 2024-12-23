@@ -78,13 +78,9 @@
         }
     </script>
 @endpush
-<form id="addAccountForm" class="space-y-4">
+<form id="updateAccountForm" class="space-y-4">
     @csrf
-    <button type="button"
-        class="mb-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm w-full hover:bg-gray-700 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-        id="btn-newPlatform">
-        Tambah Platform Baru
-    </button>
+    <input type="hidden" name="accountId" id="accountId">
     <div>
         <label for="accountType" class="block text-sm font-medium text-gray-700">Jenis Akun</label>
         <select id="accountType" name="accountType"

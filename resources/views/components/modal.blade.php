@@ -10,7 +10,7 @@
             </button>
         </div>
         <!-- Modal Body -->
-        <div class="p-6">
+        <div class="p-6 max-h-[400px] overflow-y-auto">
             {!! $slot !!}
         </div>
         <!-- Modal Footer -->
