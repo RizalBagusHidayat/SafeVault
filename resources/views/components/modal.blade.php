@@ -1,35 +1,3 @@
-@push('scripts')
-    {{-- <script>
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.remove("hidden");
-
-            setTimeout(() => {
-                modal.classList.remove("opacity-0");
-                modal.classList.add("opacity-100");
-            }, 100);
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-
-            modal.classList.remove("opacity-100");
-            modal.classList.add("opacity-0");
-
-            setTimeout(() => {
-                modal.classList.add("hidden");
-            }, 300);
-        }
-
-        // function closeModalOnOutsideClick(event, id) {
-        //     const modalContent = document.querySelector(`#${id} .bg-white`);
-        //     if (!modalContent.contains(event.target)) {
-        //         closeModal(id);
-        //     }
-        // }
-    </script> --}}
-@endpush
-
 <div id="{{ $id }}"
     class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ease-in-out opacity-0"
     onclick="">
