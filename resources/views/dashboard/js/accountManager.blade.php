@@ -49,34 +49,43 @@
 
         function loadAccountManager() {
             $.ajax({
-                url: `/api/platform `,
+                url: `/api/platform`,
                 type: "GET",
                 success: function(response) {
                     const container = $("#account-list");
                     container.empty();
 
-                    response.data.forEach(function(platform) {
-                        console.log(platform);
+                    // Periksa apakah data kosong atau null
+                    if (!response.data || response.data.length === 0) {
+                        const noDataMessage = `
+                    <div class="text-center pt-5 text-gray-600 dark:text-gray-300">
+                        Tidak ada data akun, silahkan tambahkan akun terlebih dahulu
+                    </div>
+                `;
+                        container.append(noDataMessage);
+                        return;
+                    }
 
+                    response.data.forEach(function(platform) {
                         const iconPath =
                             platform.is_editable == 0 ?
                             `assets/images/icons/${platform.icon}` :
                             `assets/images/icons/users/${platform.icon}`;
 
                         const html = `
-                <a class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b" href="/account-manager/${platform.name}">
-                    <div class="flex items-center justify-between py-5">
-                        <div class="flex gap-2">
-                            <span class="flex items-center justify-center rounded-full">
-                                <img src="${iconPath}" width="24px" height="24px" alt="Logo-${platform.name}" />
-                            </span>
-                            <h5 class="ml-4 text-lg text-gray-600 dark:text-gray-300 font-semibold">${platform.name}</h5>
+                    <a class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b" href="/account-manager/${platform.name}">
+                        <div class="flex items-center justify-between py-5">
+                            <div class="flex gap-2">
+                                <span class="flex items-center justify-center rounded-full">
+                                    <img src="${iconPath}" width="24px" height="24px" alt="Logo-${platform.name}" />
+                                </span>
+                                <h5 class="ml-4 text-lg text-gray-600 dark:text-gray-300 font-semibold">${platform.name}</h5>
+                            </div>
+                            <div>
+                                <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
-                        </div>
-                    </div>
-                </button>
+                    </a>
                 `;
                         container.append(html);
                     });
@@ -104,8 +113,6 @@
                 url: `/api/platform/${$("#user-id").val()}`,
                 type: "GET",
                 success: function(response) {
-                    console.log(response);
-
                     $("#accountType").empty();
                     $("#accountType").append(
                         '<option value="" disabled selected hidden>Pilih platform</option>'
@@ -140,9 +147,5 @@
                 },
             });
         });
-
-        function detailAccountManager() {
-            console.log("detailAccountManager");
-        }
     </script>
 @endpush

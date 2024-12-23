@@ -6,13 +6,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/icons/logo.svg') }}">
 
 
     <!-- Core CSS -->
-    @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons/tabler-icons.css') }}" />
 
@@ -78,7 +78,7 @@
                                     alt="User Profile" aria-hidden="true" />
                             </a>
 
-                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[200px] bg-white shadow-md rounded-lg mt-2 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-10 py-2"
+                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[200px] bg-white shadow-md rounded-lg mt-2 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-20 py-2"
                                 role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-hover-event">
                                 <div class="px-4 py-2 border-b text-gray-700">
                                     <p class="text-sm font-semibold">{{ $user->name }}</p>
@@ -132,7 +132,7 @@
     <script src="{{ asset('assets/libs/@preline/overlay/index.js') }}"></script>
     <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    @vite('resources/js/app.js')
+    {{-- @vite('resources/js/app.js') --}}
     @stack('scripts')
     <script>
         $('#btn-logout').click(function() {
