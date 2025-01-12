@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <table id="myTable" class="display">
+                    <table id="myTable" class="">
                         <thead>
                             <tr>
                                 <th>Column 1</th>
@@ -59,12 +59,10 @@
                         <tbody>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
 
     </div>
 
-    <script></script>
 @endsection

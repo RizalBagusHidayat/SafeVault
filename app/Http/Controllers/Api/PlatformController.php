@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Platform;
+use App\Models\LogActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,12 @@ class PlatformController extends Controller
             'is_editable' => '1'
         ]);
 
+        LogActivity::create([
+            'user_id' => $user->id,
+            'action' => 'Platform created successfully',
+            'metadata' => 'User berhasil menambahkan platform baru'
+        ]);
+        
         return response()->json([
             'success' => true,
             'message' => 'Platform created successfully',

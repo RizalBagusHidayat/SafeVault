@@ -89,7 +89,7 @@
                                     <input type="hidden" id="user-id" value="{{ $user->id }}">
                                 </div>
                                 <div class="p-1 space-y-0.5">
-                                    <a href="javascript:void(0)"
+                                    {{-- <a href="javascript:void(0)"
                                         class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-blue-500 ">
                                         <i class="ti ti-user text-xl"></i>
                                         <span class="text-sm">My Profile</span>
@@ -103,7 +103,7 @@
                                         class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-blue-500 ">
                                         <i class="ti ti-list-check text-xl"></i>
                                         <span class="text-sm">My Task</span>
-                                    </a>
+                                    </a> --}}
                                     <div class="px-4 mt-2">
                                         <input type="hidden" name="user" value="{{ $user }}">
                                         <button type="button"

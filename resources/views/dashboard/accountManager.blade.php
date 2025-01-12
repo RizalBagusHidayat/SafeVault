@@ -37,23 +37,45 @@
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Kelola akun Anda dengan mudah.</p>
                             </div>
                             <button
-                                class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md 
-                                        transition transform hover:scale-105 hover:bg-blue-700 hover:shadow-lg 
+                                class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md
+                                        transition transform hover:scale-105 hover:bg-blue-700 hover:shadow-lg
                                         focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50
                                         active:scale-95 w-full sm:w-auto"
                                 id="btn-newAccount">
                                 Tambah Akun
                             </button>
                         </div>
-
-
-
                         <div class="sm:flex flex-col gap-2 mb-5">
                             <div class="grid grid-cols-1 sm:grid-cols-3" id="account-list">
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="PinModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full flex flex-col items-center space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Konfirmasi PIN:</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Silakan masukkan PIN Anda untuk
+                melanjutkan.</p>
+
+            <!-- PIN Inputs -->
+            <div id="pinContainer" class="flex gap-3">
+                <div class="flex gap-x-3" data-hs-pin-input="">
+                    @foreach (range(1, 6) as $i)
+                        <input type="text" id="pin{{ $i }}"
+                            class="block w-[38px] text-center border-gray-300 rounded-md text-sm focus:border-primary focus:ring-primary dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600"
+                            data-hs-pin-input-item="" maxlength="1">
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="flex justify-center w-full mt-4">
+                <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded mr-2 w-full"
+                    id="cancelConfirmPinModal">Batal</button>
+                <button class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded w-full"
+                    id="confirmPinModal">Konfirmasi</button>
             </div>
         </div>
     </div>

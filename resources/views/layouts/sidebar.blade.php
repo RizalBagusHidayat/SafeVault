@@ -2,7 +2,7 @@
     class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full  transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed top-0 with-vertical h-screen z-[10] flex-shrink-0 border-r-[1px] w-[270px] border-gray-400  bg-white left-sidebar   transition-all duration-300">
     <div class="p-5">
 
-        <a href="../" class="text-nowrap flex items-center gap-3 font-semibold text-2xl">
+        <a href="{{ route('dashboard') }}" class="text-nowrap flex items-center gap-3 font-semibold text-2xl">
             <img src="{{ asset('assets/images/icons/logo.svg') }}" alt="Logo-Dark" />
             SafeVault
         </a>
@@ -33,8 +33,7 @@
                     </li>
 
                     <li class="sidebar-item mb-4">
-                        <a
-                            class="sidebar-link gap-3 py-2 px-3 rounded-md w-full flex items-center hover:text-blue-600 hover:bg-blue-500
+                        <a class="sidebar-link gap-3 py-2 px-3 rounded-md w-full flex items-center hover:text-blue-600 hover:bg-blue-500
                             {{ Route::currentRouteName() == 'account-manager.provider' ? 'active' : '' }}"
                             href="{{ route('account-manager') }}">
                             <i class="ti ti-article text-xl"></i> <span>Account Manager</span>
@@ -48,7 +47,7 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-item mb-4">
+                    {{-- <li class="sidebar-item mb-4">
                         <a class="sidebar-link gap-3 py-2 px-3 rounded-md w-full flex items-center hover:text-blue-600 hover:bg-blue-500"
                             href="{{ route('activity') }}">
                             <i class="ti ti-history text-xl"></i> <span>Activity</span>
@@ -60,7 +59,7 @@
                             href="{{ route('security') }}">
                             <i class="ti ti-shield-check text-xl"></i> <span>Security</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <!-- Settings and Logout -->
                     {{-- <li class="text-xs font-bold mb-4 mt-8">

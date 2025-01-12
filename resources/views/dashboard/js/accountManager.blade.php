@@ -47,6 +47,45 @@
             });
         });
 
+        function detailAccount(name) {
+            $("#PinModal").removeClass("hidden");
+
+            $("#confirmPinModal").click(function(e) {
+                e.preventDefault();
+                const pin = $("#pin1").val() + $("#pin2").val() + $("#pin3").val() + $("#pin4").val() + $("#pin5")
+                    .val() + $("#pin6").val();
+
+                if (pin.length !== 6) {
+                    alert('PIN harus terdiri dari 6 digit.');
+                    return;
+                }
+
+                $.ajax({
+                    url: `{{ route('verifyPin') }}`,
+                    type: 'POST',
+                    data: {
+                        pin: pin,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+
+                        if (response.status === true) {
+                            window.location.href = `/account-manager/${name}`;
+                        } else {
+                            alert('Terjadi kesalahan, coba lagi.');
+                        }
+                    },
+                    error: function() {
+                        alert('Terjadi kesalahan, coba lagi.');
+                    }
+                });
+            });
+
+            $('#cancelConfirmPinModal').click(function() {
+                $("#PinModal").addClass("hidden");
+            });
+        }
+
         function loadAccountManager() {
             $.ajax({
                 url: `/api/platform`,
@@ -73,7 +112,7 @@
                             `assets/images/icons/users/${platform.icon}`;
 
                         const html = `
-                    <a class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b" href="/account-manager/${platform.name}">
+                    <button class="p-2 lg:p-4 hover:shadow-lg hover:bg-gray-100 hover:transform hover:scale-105 transition-all duration-300 border-b" onclick="detailAccount('${platform.name}')">
                         <div class="flex items-center justify-between py-5">
                             <div class="flex gap-2">
                                 <span class="flex items-center justify-center rounded-full">
@@ -85,7 +124,7 @@
                                 <i class="ti ti-chevron-right mt-1 text-gray-600 dark:text-gray-200"></i>
                             </div>
                         </div>
-                    </a>
+                    </button>
                 `;
                         container.append(html);
                     });
@@ -128,6 +167,7 @@
             });
             openModal("addAccountModal");
         });
+
 
         $(document).ready(function() {
             loadAccountManager();

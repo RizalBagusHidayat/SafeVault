@@ -1,13 +1,15 @@
 @push('scripts')
     <script>
-        $('#updateAccount').click(function() {
+        $('#updateAccount').click(function(e) {
+            e.preventDefault();
             const form = document.getElementById("updateAccountForm");
-            const accountId = $('#accountId').val();
             const formData = new FormData(form);
+            const accountId = $('#accountId').val();
+            console.log(accountId);
 
             $.ajax({
                 url: `{{ route('account.update', ':account') }}`.replace(':account', accountId),
-                type: "PUT",
+                type: "POST",
                 data: formData,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -15,14 +17,17 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    alert("Akun berhasil diperbarui.");
-                    loadAccountManager();
+                    closeModal("updateAccountModal");
+                    loadDetailAccount();
                 },
                 error: function(xhr, status, error) {
                     alert("Terjadi kesalahan.");
                 },
             });
-        })
+        });
+
+
+
 
         function loadDetailAccount() {
             const provider = $('input[name="provider"]').val();
@@ -50,15 +55,15 @@
                             <table class="table-auto w-full border-collapse border-gray-300">
                                 <tbody class="divide-y divide-gray-200">
                                     ${details.map((detail, index) => `
-                                                                                <tr>
-                                                                                    <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">${detail.label}</td>
-                                                                                    <td class="px-4 py-3 align-top flex items-center gap-2 text-gray-600">
-                                                                                        <span id="detailValue-${account.id}-${index}">${detail.hidden == 1 ? '*****' : detail.value}</span>
-                                                                                        ${detail.hidden == 1 
-                                                                                            ? `<button class="text-blue-500 hover:underline" onclick="toggleDetail('${account.id}', ${index}, '${detail.value}')">Lihat</button>` 
-                                                                                            : '<button class ="text-blue-500 hover:underline" onclick="copyToClipboard(\'' + detail.value + '\')">Salin</button>'}
-                                                                                    </td>
-                                                                                </tr>`).join("")}
+                                        <tr>
+                                            <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">${detail.label}</td>
+                                            <td class="px-4 py-3 align-top flex items-center gap-2 text-gray-600">
+                                                <span id="detailValue-${account.id}-${index}">${detail.hidden == 1 ? '*****' : detail.value}</span>
+                                                ${detail.hidden == 1 
+                                                    ? `<button class="text-blue-500 hover:underline" onclick="toggleDetail('${account.id}', ${index}, '${detail.value}')">Lihat</button>` 
+                                                    : '<button class ="text-blue-500 hover:underline" onclick="copyToClipboard(\'' + detail.value + '\')">Salin</button>'}
+                                            </td>
+                                        </tr>`).join("")}
                                     <tr>
                                         <td class="px-4 py-3 align-top w-1/5 font-medium text-gray-600">Catatan</td>
                                         <td class="px-4 py-3 align-top text-gray-500">${account.notes || 'Tidak ada catatan yang ditambahkan'}</td>
@@ -142,7 +147,7 @@
                             $("#accountType").val(platformId).prop('disabled', true);
 
                             accountDetails.forEach((detail) => {
-                                addCustomField(); 
+                                addCustomField();
                                 const container = $("#customFieldsContainer");
                                 const lastField = container.children()
                                     .last();
@@ -196,7 +201,7 @@
                         },
                         success: function(response) {
                             if (response.status == true) {
-                                location.reload();
+                                window.location.href = '/account-manager';
                             }
                         }
                     });

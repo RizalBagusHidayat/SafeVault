@@ -81,6 +81,7 @@
 <form id="updateAccountForm" class="space-y-4">
     @csrf
     <input type="hidden" name="accountId" id="accountId">
+    <input type="hidden" name="_method" value="PUT">
     <div>
         <label for="accountType" class="block text-sm font-medium text-gray-700">Jenis Akun</label>
         <select id="accountType" name="accountType"

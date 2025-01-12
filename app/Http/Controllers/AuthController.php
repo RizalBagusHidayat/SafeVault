@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\LogActivity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
@@ -21,6 +22,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->user()->email)->first();
             $token = $user->createToken('auth_token')->plainTextToken;
+
+            LogActivity::create([
+                'user_id' => $user->id,
+                'action' => 'User logged in successfully',
+                'metadata' => 'Akun berhasil log in di IP: ' . $request->ip(),
+            ]);
 
             return response()->json([
                 'status' => true,
@@ -51,6 +58,12 @@ class AuthController extends Controller
             'pin' => null,
         ]);
 
+        LogActivity::create([
+            'user_id' => $user->id,
+            'action' => 'Account Registered Successfully',
+            'metadata' => 'Akun berhasil dibuat dengan email: ' . $user->email,
+        ]);
+
         if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
             $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -74,7 +87,7 @@ class AuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function googleCallback()
+    public function googleCallback(Request $request)
     {
         $googleUser = Socialite::driver('google')->user();
         $user = User::firstOrCreate(
@@ -87,14 +100,26 @@ class AuthController extends Controller
             ]
         );
 
+
         Auth::login($user);
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        $log = LogActivity::create([
+            'user_id' => $user->id,
+            'action' => 'User logged in successfully',
+            'metadata' => 'Akun berhasil log in di IP: ' . $request->ip(),
+        ]);
         return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        $log = LogActivity::create([
+            'user_id' => $user->id,
+            'action' => 'User logged out successfully',
+            'metadata' => 'User berhasil log out',
+        ]);
         // Hapus semua token akses pengguna
         $request->user()->tokens()->delete();
         Auth::logout();
@@ -112,6 +137,12 @@ class AuthController extends Controller
         $user->pin = $pin;
         $user->save();
 
+        LogActivity::create([
+            'user_id' => $user->id,
+            'action' => 'Pin set successfully',
+            'metadata' => 'User berhasil mengatur pin',
+        ]);
+
         return response()->json([
             'status' => true,
             'message' => 'Pin set successfully.'
@@ -126,6 +157,12 @@ class AuthController extends Controller
         if ($user->pin == $pin) {
             // Set a cookie to indicate PIN is verified
             Cookie::queue('user_pin', true, 60); // Cookie will expire in 60 minutes
+
+            LogActivity::create([
+                'user_id' => $user->id,
+                'action' => 'Pin verified successfully',
+                'metadata' => 'User berhasil melakukan verifikasi pin',
+            ]);
 
             return response()->json([
                 'status' => true,
